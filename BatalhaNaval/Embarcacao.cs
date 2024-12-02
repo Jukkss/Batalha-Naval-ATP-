@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BatalhaNaval
 {
-    internal class Emabarcacao
+    public class Embarcacao
     {
         private string nome;
         private int tamanho;
 
-        public Emabarcacao(string nome, int tamanho)
+        public Embarcacao(string nome, int tamanho)
         {
             this.nome = nome;
             this.tamanho = tamanho;

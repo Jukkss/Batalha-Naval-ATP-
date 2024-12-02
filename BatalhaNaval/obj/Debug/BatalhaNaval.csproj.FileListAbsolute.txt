@@ -1,0 +1,7 @@
+C:\Users\sjuao\source\repos\BatalhaNaval\BatalhaNaval\obj\Debug\BatalhaNaval.csproj.AssemblyReference.cache
+C:\Users\sjuao\source\repos\BatalhaNaval\BatalhaNaval\obj\Debug\BatalhaNaval.csproj.CoreCompileInputs.cache
+C:\Users\sjuao\source\repos\BatalhaNaval\BatalhaNaval\bin\Debug\BatalhaNaval.exe.config
+C:\Users\sjuao\source\repos\BatalhaNaval\BatalhaNaval\bin\Debug\BatalhaNaval.exe
+C:\Users\sjuao\source\repos\BatalhaNaval\BatalhaNaval\bin\Debug\BatalhaNaval.pdb
+C:\Users\sjuao\source\repos\BatalhaNaval\BatalhaNaval\obj\Debug\BatalhaNaval.exe
+C:\Users\sjuao\source\repos\BatalhaNaval\BatalhaNaval\obj\Debug\BatalhaNaval.pdb
