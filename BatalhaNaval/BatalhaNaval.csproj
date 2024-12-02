@@ -43,9 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Emabarcacao.cs" />
+    <Compile Include="BatalhaNaval.cs" />
+    <Compile Include="Embarcacao.cs" />
+    <Compile Include="JogadorComputador.cs" />
+    <Compile Include="JogadorHumano.cs" />
     <Compile Include="Posicao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Teste.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
