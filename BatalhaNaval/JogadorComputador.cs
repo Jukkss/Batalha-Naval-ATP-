@@ -24,7 +24,7 @@ namespace BatalhaNaval
             {
                 for (int j = 0; j < tabuleiro.GetLength(1); j++)
                 {
-                    tabuleiro[i, j] = 'A'; // 'A' representa água
+                    tabuleiro[i, j] = 'A';
                 }
             }
         }
@@ -53,12 +53,10 @@ namespace BatalhaNaval
             set { posTirosDados = value; }
         }
 
-        // Corrigido para aceitar ambas as orientações de embarcações
         public bool AdicionarEmbarcacao(Embarcacao embarcacaoNova, Posicao posicaoInicial, bool horizontal)
         {
             if (horizontal)
             {
-                // Verifica se a embarcação cabe horizontalmente
                 if (posicaoInicial.Coluna + embarcacaoNova.Tamanho > tabuleiro.GetLength(1))
                     return false;
 
@@ -75,7 +73,6 @@ namespace BatalhaNaval
             }
             else
             {
-                // Verifica se a embarcação cabe verticalmente
                 if (posicaoInicial.Linha + embarcacaoNova.Tamanho > tabuleiro.GetLength(0))
                     return false;
 
@@ -94,7 +91,6 @@ namespace BatalhaNaval
             return true;
         }
 
-        // Corrigido para melhorar a geração dos tiros
         public Posicao EscolherAtaque()
         {
             Posicao posicaoNova = null;
@@ -102,11 +98,10 @@ namespace BatalhaNaval
 
             while (!validacao)
             {
-                int linha = r.Next(10); // Aleatório entre 0 e 9
+                int linha = r.Next(10); 
                 int coluna = r.Next(10);
                 posicaoNova = new Posicao(linha, coluna);
 
-                // Verifica se o tiro já foi dado anteriormente
                 bool jaTirada = false;
                 foreach (var tiro in PosTirosDados)
                 {
@@ -127,22 +122,20 @@ namespace BatalhaNaval
             return posicaoNova;
         }
 
-        // Corrigido para verificar as células corretamente
         public bool ReceberAtaque(Posicao posTiroDado)
         {
             if (tabuleiro[posTiroDado.Linha, posTiroDado.Coluna] != 'A' && tabuleiro[posTiroDado.Linha, posTiroDado.Coluna] != 'T')
             {
-                tabuleiro[posTiroDado.Linha, posTiroDado.Coluna] = 'T'; // Marca como atingido
+                tabuleiro[posTiroDado.Linha, posTiroDado.Coluna] = 'T';
                 return true;
             }
             else
             {
-                tabuleiro[posTiroDado.Linha, posTiroDado.Coluna] = 'X'; // Marca como água
+                tabuleiro[posTiroDado.Linha, posTiroDado.Coluna] = 'X';
                 return false;
             }
         }
 
-        // Imprime o tabuleiro completo
         public void ImprimirTabuleiroJogador()
         {
             for (int i = 0; i < tabuleiro.GetLength(0); i++)
@@ -155,18 +148,16 @@ namespace BatalhaNaval
             }
         }
 
-        // Imprime o tabuleiro adversário, ocultando a posição das embarcações não atingidas
         public void ImprimirTabuleiroAdversario()
         {
             for (int i = 0; i < tabuleiro.GetLength(0); i++)
             {
                 for (int j = 0; j < tabuleiro.GetLength(1); j++)
                 {
-                    // Mostra água, tiros, e marcações de "atingido", mas não a embarcação adversária
                     if (tabuleiro[i, j] == 'A' || tabuleiro[i, j] == 'T' || tabuleiro[i, j] == 'X')
                         Console.Write($"{tabuleiro[i, j]} ");
                     else
-                        Console.Write("A "); // Oculta as embarcações adversárias
+                        Console.Write("A ");
                 }
                 Console.WriteLine();
             }
