@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Trabalho Prátco ATP - Desenvolvimento(Soares) - Revisão(Fróis e Lucas)
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -16,28 +17,24 @@ namespace BatalhaNaval
         {
             Console.WriteLine("Bem-vindo ao jogo de Batalha Naval!");
 
-            // Configurar jogador humano
             Console.Write("Digite seu nome completo: ");
             string nomeCompleto = Console.ReadLine();
             jogadorHumano = new JogadorHumano(10, 10, nomeCompleto);
             Console.WriteLine($"Seu nickname é: {jogadorHumano.Nickname}");
 
-            // Configurar jogador computador
+
             jogadorComputador = new JogadorComputador(10, 10);
 
-            // Posicionar embarcações
             Console.WriteLine("\nPosicione suas embarcações:");
             PosicionarEmbarcacoes(jogadorHumano);
             Console.WriteLine("\nComputador posicionando embarcações...");
             PosicionarEmbarcacoesComputador();
 
-            // Loop principal do jogo
             Console.WriteLine("\nO jogo começou!");
             bool jogoAtivo = true;
-
+            StreamWriter arqE = new StreamWriter("jogadaas.txt", false, Encoding.UTF8);
             while (jogoAtivo)
             {
-                // Turno do jogador humano
                 Console.WriteLine("\nSeu tabuleiro:");
                 jogadorHumano.ImprimeTabuleiro();
 
@@ -50,11 +47,13 @@ namespace BatalhaNaval
                 if (acertou)
                 {
                     Console.WriteLine("Você acertou uma embarcação!");
+                    arqE.WriteLine($"[Tiro {jogadorHumano.NumTiroDados}] - Acerto na posição({ataqueHumano})");
                     jogadorHumano.Pontuacao++;
                 }
                 else
                 {
                     Console.WriteLine("Você acertou na água!");
+                    arqE.WriteLine($"[Tiro {jogadorHumano.NumTiroDados}] - Erro na posição({ataqueHumano})");
                 }
 
                 if (VerificarFimDeJogo())
@@ -62,8 +61,6 @@ namespace BatalhaNaval
                     jogoAtivo = false;
                     break;
                 }
-
-                // Turno do computador
                 Console.WriteLine("\nTurno do computador...");
                 Posicao ataqueComputador = jogadorComputador.EscolherAtaque();
                 bool computadorAcertou = jogadorHumano.ReceberAtaque(ataqueComputador);
@@ -83,17 +80,21 @@ namespace BatalhaNaval
                     jogoAtivo = false;
                 }
             }
-
-            // Fim do jogo
+            arqE.Close();
             ExibirResultado();
         }
-
         private void PosicionarEmbarcacoes(JogadorHumano jogador)
         {
-            var embarcacoes = new List<Embarcacao>
+            Embarcacao[] embarcacoes = new Embarcacao[]
             {
                 new Embarcacao("Submarino", 1),
+                new Embarcacao("Submarino", 1),
+                new Embarcacao("Submarino", 1),
+                new Embarcacao("Submarino", 1),
                 new Embarcacao("Hidroavião", 2),
+                new Embarcacao("Hidroavião", 2),
+                new Embarcacao("Hidroavião", 2),
+                new Embarcacao("Cruzador", 3),
                 new Embarcacao("Cruzador", 3),
                 new Embarcacao("Encouraçado", 4),
                 new Embarcacao("Porta-aviões", 5)
@@ -124,44 +125,67 @@ namespace BatalhaNaval
                 }
             }
         }
-
         private void PosicionarEmbarcacoesComputador()
         {
-            var embarcacoes = new List<Embarcacao>
-            {
-                new Embarcacao("Submarino", 1),
-                new Embarcacao("Hidroavião", 2),
-                new Embarcacao("Cruzador", 3),
-                new Embarcacao("Encouraçado", 4),
-                new Embarcacao("Porta-aviões", 5)
-            };
+            string[] linhas = File.ReadAllLines("frotaComputador.txt");
 
-            Random random = new Random();
-            foreach (var embarcacao in embarcacoes)
+            foreach (string linha in linhas)
             {
-                bool posicionada = false;
-                while (!posicionada)
+                string[] partes = linha.Split(';');
+                string nome = partes[0];
+                int linhaInicial = int.Parse(partes[1]);
+                int colunaInicial = int.Parse(partes[2]);
+                string orientacao = partes[3].ToUpper();
+                bool horizontal = orientacao == "H";
+
+                int tamanho = 0;
+
+                if (nome == "Submarino")
                 {
-                    // Gerar uma posição aleatória para o computador
-                    int linha = random.Next(0, 10); // Random entre 0 e 9
-                    int coluna = random.Next(0, 10); // Random entre 0 e 9
-                    bool horizontal = random.Next(0, 2) == 0; // Random entre 0 e 1 para definir horizontal ou vertical
+                    tamanho = 1;
+                }
+                else if (nome == "Hidroavião")
+                {
+                    tamanho = 2;
+                }
+                else if (nome == "Cruzador")
+                {
+                    tamanho = 3;
+                }
+                else if (nome == "Encouraçado")
+                {
+                    tamanho = 4;
+                }
+                else if (nome == "Porta-aviões")
+                {
+                    tamanho = 5;
+                }
+                else
+                {
+                    Console.WriteLine($"Aviso: Embarcação desconhecida no arquivo: {nome}. Linha ignorada.");
+                    continue;
+                }
 
-                    Posicao posicao = new Posicao(linha, coluna);
-                    posicionada = jogadorComputador.AdicionarEmbarcacao(embarcacao, posicao, horizontal);
+                var embarcacao = new Embarcacao(nome, tamanho);
+
+                Posicao posicao = new Posicao(linhaInicial, colunaInicial);
+                bool adicionada = jogadorComputador.AdicionarEmbarcacao(embarcacao, posicao, horizontal);
+
+                if (!adicionada)
+                {
+                    Console.WriteLine($"Não foi possível posicionar a embarcação {nome} na posição ({linhaInicial}, {colunaInicial}).");
                 }
             }
         }
-
         private bool VerificarFimDeJogo()
         {
-            if (jogadorComputador.Pontuacao == 15)
+            if (jogadorComputador.Pontuacao == 25)
             {
                 Console.WriteLine("\nO computador venceu!");
                 return true;
             }
 
-            if (jogadorHumano.Pontuacao == 15)
+            if (jogadorHumano.Pontuacao == 25)
             {
                 Console.WriteLine($"\nParabéns, {jogadorHumano.Nickname}! Você venceu!");
                 return true;
@@ -169,7 +193,6 @@ namespace BatalhaNaval
 
             return false;
         }
-
         private void ExibirResultado()
         {
             Console.WriteLine("\nResultado Final:");
