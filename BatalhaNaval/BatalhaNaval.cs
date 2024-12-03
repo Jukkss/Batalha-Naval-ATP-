@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Trabalho Prátco ATP - Desenvolvimento(Soares) - Revisão(Fróis e Lucas)
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -34,7 +35,6 @@ namespace BatalhaNaval
             StreamWriter arqE = new StreamWriter("jogadaas.txt", false, Encoding.UTF8);
             while (jogoAtivo)
             {
-                // Turno humano
                 Console.WriteLine("\nSeu tabuleiro:");
                 jogadorHumano.ImprimeTabuleiro();
 
@@ -61,7 +61,6 @@ namespace BatalhaNaval
                     jogoAtivo = false;
                     break;
                 }
-                // Turno computador
                 Console.WriteLine("\nTurno do computador...");
                 Posicao ataqueComputador = jogadorComputador.EscolherAtaque();
                 bool computadorAcertou = jogadorHumano.ReceberAtaque(ataqueComputador);
@@ -128,20 +127,17 @@ namespace BatalhaNaval
         }
         private void PosicionarEmbarcacoesComputador()
         {
-            // Ler todas as linhas do arquivo de configuração da frota
             string[] linhas = File.ReadAllLines("frotaComputador.txt");
 
             foreach (string linha in linhas)
             {
-                // Dividir os dados da linha pelo separador ";"
                 string[] partes = linha.Split(';');
                 string nome = partes[0];
                 int linhaInicial = int.Parse(partes[1]);
                 int colunaInicial = int.Parse(partes[2]);
-                string orientacao = partes[3].ToUpper(); // H para horizontal, V para vertical
+                string orientacao = partes[3].ToUpper();
                 bool horizontal = orientacao == "H";
 
-                // Determinar o tamanho da embarcação com base no nome
                 int tamanho = 0;
 
                 if (nome == "Submarino")
@@ -167,17 +163,14 @@ namespace BatalhaNaval
                 else
                 {
                     Console.WriteLine($"Aviso: Embarcação desconhecida no arquivo: {nome}. Linha ignorada.");
-                    continue; // Ignorar linha se o nome não for reconhecido
+                    continue;
                 }
 
-                // Criar o objeto da embarcação
                 var embarcacao = new Embarcacao(nome, tamanho);
 
-                // Tentar adicionar a embarcação no tabuleiro do computador
                 Posicao posicao = new Posicao(linhaInicial, colunaInicial);
                 bool adicionada = jogadorComputador.AdicionarEmbarcacao(embarcacao, posicao, horizontal);
 
-                // Verificar se a posição foi válida
                 if (!adicionada)
                 {
                     Console.WriteLine($"Não foi possível posicionar a embarcação {nome} na posição ({linhaInicial}, {colunaInicial}).");
@@ -206,7 +199,6 @@ namespace BatalhaNaval
             Console.WriteLine($"{jogadorHumano.Nickname}: {jogadorHumano.Pontuacao} pontos");
             Console.WriteLine($"Computador: {jogadorComputador.Pontuacao} pontos");
         }
-
     }
 }
 

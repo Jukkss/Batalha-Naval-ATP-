@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Trabalho Prátco ATP - Desenvolvimento(Fróis)
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,12 +22,12 @@ namespace BatalhaNaval
             {
                 for (int c = 0; c < colunas; c++)
                 {
-                    tabuleiro[l, c] = 'A';  // 'A' representa água (posição vazia)
+                    tabuleiro[l, c] = 'A';
                 }
             }
             this.pontuacao = 0;
             this.numTiroDados = 0;
-            this.posTiroDados = new Posicao[100]; // Armazenar até 100 tiros dados
+            this.posTiroDados = new Posicao[100];
             this.nickname = GerarNickname(nome);
         }
 
@@ -84,7 +85,6 @@ namespace BatalhaNaval
             bool posicaoValida = false;
             while (!posicaoValida)
             {
-                // Verifica se a posição está dentro dos limites do tabuleiro
                 if (linha < 0 || linha >= tabuleiro.GetLength(0) || coluna < 0 || coluna >= tabuleiro.GetLength(1))
                 {
                     Console.WriteLine("\nPosição fora dos limites da matriz!");
@@ -95,7 +95,6 @@ namespace BatalhaNaval
                 }
                 else
                 {
-                    // Verifica se a posição já foi atingida anteriormente
                     bool jaTirada = false;
                     foreach (var tiro in posTiroDados)
                     {
@@ -130,12 +129,12 @@ namespace BatalhaNaval
         {
             if (tabuleiro[posicaoTiro.Linha, posicaoTiro.Coluna] != 'A')
             {
-                tabuleiro[posicaoTiro.Linha, posicaoTiro.Coluna] = 'X'; // Marca como atingido
+                tabuleiro[posicaoTiro.Linha, posicaoTiro.Coluna] = 'X'; 
                 return true;
             }
             else
             {
-                tabuleiro[posicaoTiro.Linha, posicaoTiro.Coluna] = 'O'; // Marca como água
+                tabuleiro[posicaoTiro.Linha, posicaoTiro.Coluna] = 'O';
                 return false;
             }
         }
@@ -158,7 +157,7 @@ namespace BatalhaNaval
             {
                 for (int c = 0; c < tabuleiro.GetLength(1); c++)
                 {
-                    if (tabuleiro[l, c] == 'A') // Mostra apenas as células que ainda não foram atingidas
+                    if (tabuleiro[l, c] == 'A')
                         Console.Write("A ");
                     else
                         Console.Write($"{tabuleiro[l, c]} ");

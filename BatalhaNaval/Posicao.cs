@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Trabalho Prátco ATP - Desenvolvimento(Soares)
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -17,8 +18,6 @@ namespace BatalhaNaval
             this.linha = linha;
             this.coluna = coluna;
         }
-
-
         public int Linha
         {
             get { return linha; }
