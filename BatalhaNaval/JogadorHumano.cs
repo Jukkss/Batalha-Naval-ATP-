@@ -74,9 +74,10 @@ namespace BatalhaNaval
         public Posicao EscolherAtaque()
         {
             Console.WriteLine("\nEscolha as coordenadas do tiro:");
-            Console.WriteLine("\tLinha:");
+            Console.Write("\tLinha:");
             int linha = int.Parse(Console.ReadLine());
-            Console.WriteLine("\tColuna:");
+            Console.WriteLine();
+            Console.Write("\tColuna:");
             int coluna = int.Parse(Console.ReadLine());
             Posicao posicaoTeste = new Posicao(linha, coluna);
 
@@ -115,7 +116,8 @@ namespace BatalhaNaval
                     }
                     else
                     {
-                        posTiroDados[numTiroDados++] = posicaoTeste; // Armazena o tiro
+                        NumTiroDados++;
+                        posTiroDados[NumTiroDados - 1] = posicaoTeste; 
                         posicaoValida = true;
                     }
                 }

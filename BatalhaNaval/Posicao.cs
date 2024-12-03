@@ -30,5 +30,10 @@ namespace BatalhaNaval
             set { coluna = value; }
         }
 
+        public override string ToString()
+        {
+            return $"Linhaa:{linha} - Coluna:{coluna}";
+        }
+
     }
 }
